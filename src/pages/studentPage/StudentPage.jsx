@@ -20,7 +20,6 @@ const StudentPage = () => {
       await api.patch(`/students/payment/${id}`, { paymentStatus });
       // Serverga yuborilgandan keyin tepada yangilanadi
       setStudent(prev => ({ ...prev, paymentStatus }));
-      alert("To‘lov holati o‘zgartirildi!");
     } catch (err) {
       console.error(err);
       alert("Xatolik yuz berdi!");

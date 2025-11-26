@@ -12,11 +12,14 @@ const StudentsList = () => {
   }, [id]);
 
   const deleteStudent = async (studentId) => {
-    if (!confirm("O‘chirishni xohlaysizmi?")) return;
-
-    await api.delete(`/students/${studentId}`);
-
-    setStudents(students.filter(s => s._id !== studentId));
+    // Confirm olib tashlandi
+    try {
+      await api.delete(`/students/${studentId}`);
+      setStudents(students.filter(s => s._id !== studentId));
+    } catch (err) {
+      console.error(err);
+      alert("O‘chirishda xatolik yuz berdi!");
+    }
   };
 
   return (
