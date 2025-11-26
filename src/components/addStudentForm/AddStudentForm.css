@@ -1,0 +1,98 @@
+.add-container {
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 25px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+}
+
+.add-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #1B3764;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.add-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.add-form input,
+.add-form select,
+.add-form textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  font-size: 16px;
+  outline: none;
+  transition: 0.25s;
+  background: #fafafa;
+}
+
+.add-form input:focus,
+.add-form select:focus,
+.add-form textarea:focus {
+  border-color: #1B3764;
+  box-shadow: 0 0 6px rgba(27, 55, 100, 0.3);
+  background: #fff;
+}
+
+.add-form select {
+  cursor: pointer;
+}
+
+.add-form textarea {
+  height: 80px;
+  resize: none;
+}
+
+.add-form label {
+  font-weight: bold;
+  color: #1B3764;
+  margin-top: 10px;
+}
+
+.add-form button {
+  width: 100%;
+  padding: 12px;
+  background: #1B3764;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.add-form button:hover {
+  background: #15294a;
+  transform: translateY(-2px);
+}
+
+.add-form button:active {
+  transform: scale(0.98);
+}
+
+/* 📱 Responsive */
+@media (max-width: 480px) {
+  .add-container {
+    padding: 18px;
+  }
+
+  .add-form input,
+  .add-form select,
+  .add-form textarea {
+    font-size: 15px;
+    padding: 10px;
+  }
+
+  .add-container h2 {
+    font-size: 20px;
+  }
+}

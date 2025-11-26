@@ -1,0 +1,89 @@
+.students-list {
+  max-width: 600px;
+  margin: 40px auto;
+  background: #ffffff;
+  padding: 25px; /* ro'yxat ichidagi content uchun */
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+
+  max-height: 555px;
+  overflow-y: scroll;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+
+.students-list::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+.students-list h2 {
+  text-align: center;
+  color: #1b3764;
+  font-size: 26px;
+  font-weight: bold;
+
+  position: sticky;
+  top: 0; /* Tepaga yopishib turadi */
+  background: #ffffff;
+  z-index: 10;
+  margin-bottom: 15px; /* pastki bo'shliq */
+  padding: 10px 0; /* biroz yuqoridan va pastdan padding */
+}
+
+
+/* --- Student Card --- */
+.student-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f7f9fc;
+  padding: 14px 18px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  border: 1px solid #e0e6ef;
+  transition: 0.2s ease;
+}
+
+/* --- Student Name Link --- */
+.student-item a {
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 500;
+  color: #1b3764;
+}
+
+.student-item a:hover {
+  color: #4065a1;
+}
+
+/* --- Delete Button --- */
+.delete-btn {
+  background-color: #ff4d4d;
+  border: none;
+  padding: 8px 14px;
+  color: white;
+  font-size: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+
+/* --- Mobile --- */
+@media (max-width: 450px) {
+  .students-list {
+    padding: 18px;
+  }
+
+  .student-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .delete-btn {
+    width: 100%;
+    text-align: center;
+  }
+}

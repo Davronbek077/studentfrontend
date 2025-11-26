@@ -1,0 +1,29 @@
+.group-page {
+    padding: 20px 30px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  
+  .group-title {
+    font-size: 28px;
+    font-weight: 600;
+    color: #1b3764;
+    margin-bottom: 20px;
+    border-left: 5px solid #f4b400;
+    padding-left: 12px;
+    text-align: center;
+  }
+  
+  .no-students {
+    background: #fff4e6;
+    padding: 15px;
+    border-left: 4px solid #ff9800;
+    border-radius: 6px;
+    color: #7a5a00;
+    font-size: 16px;
+  }
+  
+  .student-list-container {
+    margin-top: 20px;
+  }
+  
