@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { HashRouter as Router, Routes, Route } from "react-router-dom"; // HashRouter
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 
 import { api } from "./api/api";
@@ -19,7 +19,7 @@ const App = () => {
   }, []);
 
   return (
-    <Router>
+    <BrowserRouter>
       <Navbar openSidebar={() => setSidebarOpen(true)} />
 
       <div className="app-container">
@@ -40,7 +40,7 @@ const App = () => {
         </div>
 
       </div>
-    </Router>
+    </BrowserRouter>
   );
 };
 

@@ -6,7 +6,6 @@ import "./StudentPage.css";
 const StudentPage = () => {
   const { id } = useParams();
   const [student, setStudent] = useState(null);
-
   const [paymentStatus, setPaymentStatus] = useState("");
 
   useEffect(() => {
@@ -17,10 +16,15 @@ const StudentPage = () => {
   }, [id]);
 
   const updatePayment = async () => {
-    await api.patch(`/students/payment/${id}`, {
-      paymentStatus
-    });
-    alert("To‘lov holati o‘zgartirildi!");
+    try {
+      await api.patch(`/students/payment/${id}`, { paymentStatus });
+      // Serverga yuborilgandan keyin tepada yangilanadi
+      setStudent(prev => ({ ...prev, paymentStatus }));
+      alert("To‘lov holati o‘zgartirildi!");
+    } catch (err) {
+      console.error(err);
+      alert("Xatolik yuz berdi!");
+    }
   };
 
   if (!student) return <p className="loading">Yuklanmoqda...</p>;
@@ -31,19 +35,16 @@ const StudentPage = () => {
 
       <div className="info-box">
         <p><b>O'quvchi telefoni:</b> {student.phone}</p>
-
         <p><b>Otasining ismi:</b> {student.fatherName || "-"}</p>
         <p><b>Otasining telefoni:</b> {student.fatherPhone || "-"}</p>
-
         <p><b>Onasining ismi:</b> {student.motherName || "-"}</p>
         <p><b>Onasining telefoni:</b> {student.motherPhone || "-"}</p>
-
-         <p><b>To‘lov holati:</b> {student.paymentStatus}</p>
+        <p><b>To‘lov holati:</b> {student.paymentStatus}</p>
       </div>
 
       <label>To‘lov holati:</label>
-      <select 
-        value={paymentStatus} 
+      <select
+        value={paymentStatus}
         onChange={(e) => setPaymentStatus(e.target.value)}
       >
         <option value="Qilinmagan">Qilinmagan</option>
