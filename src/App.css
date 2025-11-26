@@ -33,6 +33,10 @@
   font-size: 16px;
 }
 
+.password-box input:focus{
+  outline: none;
+}
+
 .password-box button {
   width: 100%;
   padding: 12px;
