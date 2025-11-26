@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { api } from "../../api/api";
 import "./AddStudentForm.css";
+import { toast } from "react-toastify";
 
 const Add = () => {
   const [groups, setGroups] = useState([]);
@@ -18,7 +19,7 @@ const Add = () => {
   const [paymentStatus, setPaymentStatus] = useState("Qilinmagan");
   const [notes, setNotes] = useState("");
 
-  // 🔥 Backenddan guruhlarni olish
+  // 🔥 Guruhlarni backenddan olish
   useEffect(() => {
     api.get("/groups").then((res) => {
       setGroups(res.data);
@@ -29,23 +30,39 @@ const Add = () => {
     e.preventDefault();
 
     if (!groupId) {
-      alert("Iltimos, guruhni tanlang!");
+      toast.error("Iltimos, guruh tanlang!");
       return;
     }
 
-    await api.post("/students", {
-      name,
-      phone,
-      group_id: groupId,
-      fatherName,
-      fatherPhone,
-      motherName,
-      motherPhone,
-      paymentStatus,
-      notes,
-    });
+    try {
+      await api.post("/students", {
+        name,
+        phone,
+        group_id: groupId,
+        fatherName,
+        fatherPhone,
+        motherName,
+        motherPhone,
+        paymentStatus,
+        notes,
+      });
 
-    alert("O‘quvchi qo‘shildi!");
+      toast.success("O‘quvchi muvaffaqiyatli qo‘shildi!");
+
+      // Formani tozalash
+      setName("");
+      setPhone("");
+      setFatherName("");
+      setFatherPhone("");
+      setMotherName("");
+      setMotherPhone("");
+      setNotes("");
+      setGroupId("");
+      setPaymentStatus("Qilinmagan");
+
+    } catch (err) {
+      toast.error("Xatolik! O‘quvchi qo‘shilmadi.");
+    }
   };
 
   return (
@@ -53,6 +70,7 @@ const Add = () => {
       <h2>O‘quvchi qo‘shish</h2>
 
       <form onSubmit={handleSubmit} className="add-form">
+
         <select value={groupId} onChange={(e) => setGroupId(e.target.value)}>
           <option value="">Guruh tanlang</option>
           {groups.map((group) => (
@@ -62,14 +80,14 @@ const Add = () => {
           ))}
         </select>
 
-        <input placeholder="O'quvchi ismi" onChange={(e) => setName(e.target.value)} />
-        <input placeholder="O'quvchi telefoni" onChange={(e) => setPhone(e.target.value)} />
+        <input value={name} placeholder="O'quvchi ismi" onChange={(e) => setName(e.target.value)} />
+        <input value={phone} placeholder="O'quvchi telefoni" onChange={(e) => setPhone(e.target.value)} />
 
-        <input placeholder="Otasining ismi" onChange={(e) => setFatherName(e.target.value)} />
-        <input placeholder="Otasining telefoni" onChange={(e) => setFatherPhone(e.target.value)} />
+        <input value={fatherName} placeholder="Otasining ismi" onChange={(e) => setFatherName(e.target.value)} />
+        <input value={fatherPhone} placeholder="Otasining telefoni" onChange={(e) => setFatherPhone(e.target.value)} />
 
-        <input placeholder="Onasining ismi" onChange={(e) => setMotherName(e.target.value)} />
-        <input placeholder="Onasining telefoni" onChange={(e) => setMotherPhone(e.target.value)} />
+        <input value={motherName} placeholder="Onasining ismi" onChange={(e) => setMotherName(e.target.value)} />
+        <input value={motherPhone} placeholder="Onasining telefoni" onChange={(e) => setMotherPhone(e.target.value)} />
 
         <label>To‘lov holati:</label>
         <select value={paymentStatus} onChange={(e) => setPaymentStatus(e.target.value)}>
@@ -77,7 +95,7 @@ const Add = () => {
           <option value="Qilingan">Qilingan</option>
         </select>
 
-        <textarea placeholder="Izoh" onChange={(e) => setNotes(e.target.value)} />
+        <textarea value={notes} placeholder="Izoh" onChange={(e) => setNotes(e.target.value)} />
 
         <button type="submit">Qo‘shish</button>
       </form>

@@ -2,14 +2,16 @@
   max-width: 600px;
   margin: 40px auto;
   background: #ffffff;
-  padding: 25px; /* ro'yxat ichidagi content uchun */
+
+  padding: 0 22px 15px; /* Yuqoridan 0! — shunda h2 tepaga yopishadi */
+
   border-radius: 12px;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
 
   max-height: 555px;
   overflow-y: scroll;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE 10+ */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .students-list::-webkit-scrollbar {
@@ -24,11 +26,12 @@
   font-weight: bold;
 
   position: sticky;
-  top: 0; /* Tepaga yopishib turadi */
+  top: 0; /* to‘liq tepaga yopishadi */
   background: #ffffff;
   z-index: 10;
-  margin-bottom: 15px; /* pastki bo'shliq */
-  padding: 10px 0; /* biroz yuqoridan va pastdan padding */
+
+  margin: 0;
+  padding: 20px 0; /* h2 o‘zining ichki balandligi */
 }
 
 

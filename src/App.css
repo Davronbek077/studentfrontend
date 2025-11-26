@@ -7,3 +7,43 @@
   padding: 25px;
   width: 100%;
 }
+
+.password-protect {
+  margin-top: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.password-box {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 320px;
+}
+
+.password-box input {
+  width: 100%;
+  padding: 12px;
+  margin: 15px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.password-box button {
+  width: 100%;
+  padding: 12px;
+  background: #1b3764;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.password-box button:hover {
+  background: #14294a;
+}
