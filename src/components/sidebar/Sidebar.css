@@ -1,48 +1,119 @@
+/* --- Sidebar umumiy --- */
 .sidebar {
   position: fixed;
   top: 0;
-  left: 0;
+  left: -300px; /* default yopiq */
   width: 280px;
-  height: 100vh;
-  background-color: #16335B;
-  color: white;
-  padding: 25px 20px;
-  transform: translateX(-100%);
-  transition: 0.35s ease;
-  z-index: 2000;
+  height: 100%;
+  background: #ffffff;
+  box-shadow: 2px 0 12px rgba(0,0,0,0.1);
+  padding: 20px;
+  transition: left 0.3s ease;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
 }
 
 .sidebar.open {
-  transform: translateX(0);
+  left: 0;
 }
 
+/* --- Close tugma --- */
 .close-btn {
+  align-self: flex-end;
   background: none;
   border: none;
-  color: white;
-  font-size: 26px;
+  font-size: 35px;
   cursor: pointer;
+  margin-bottom: 10px;
+}
+
+/* --- Sarlavha --- */
+.sidebar h2 {
   margin-bottom: 15px;
+  color: #1b3764;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+/* --- Guruh ro‘yxati --- */
+.group-list {
+  flex: 1;
+  overflow-y: auto; /* scroll bo‘lsin */
 }
 
 .group-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  background: #f7f9fc;
+  border-radius: 8px;
+  border: 1px solid #e0e6ef;
 }
 
 .group-item a {
-  color: white;
   text-decoration: none;
-  font-size: 18px;
+  color: #1b3764;
+  font-weight: 500;
+}
+
+.group-item a:hover {
+  color: #4065a1;
 }
 
 .delete-btn {
-  background: transparent;
-  border: 1px solid red;
-  color: red;
-  padding: 2px 6px;
+  background-color: #ff4d4d;
+  border: none;
+  padding: 4px 8px;
+  color: white;
+  border-radius: 6px;
   cursor: pointer;
-  border-radius: 4px;
+  font-size: 12px;
+}
+
+/* --- Yangi guruh qo‘shish --- */
+.add-group {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.add-group input {
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+}
+
+.add-group input:focus {
+  border-color: #1b3764;
+}
+
+.add-group button {
+  padding: 8px 10px;
+  border: none;
+  background-color: #1b3764;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.2s ease;
+}
+
+.add-group button:hover {
+  background-color: #4065a1;
+}
+
+/* --- Scrollbar styling (optional) --- */
+.group-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.group-list::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,0.2);
+  border-radius: 3px;
 }
