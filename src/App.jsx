@@ -7,7 +7,7 @@ import Sidebar from "./components/sidebar/Sidebar";
 import Navbar from "./components/navbar/Navbar";
 
 import Home from "./pages/Home";
-import GroupPage from "./pages/GroupPage/GroupPage";
+import GroupPage from "./pages/groupPage/GroupPage";
 import StudentPage from "./pages/studentPage/StudentPage";
 
 const App = () => {
