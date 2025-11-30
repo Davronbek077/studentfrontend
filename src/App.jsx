@@ -9,6 +9,7 @@ import Navbar from "./components/navbar/Navbar";
 import Home from "./pages/Home";
 import GroupPage from "./pages/groupPage/GroupPage";
 import StudentPage from "./pages/studentPage/StudentPage";
+import Add from "./components/addStudentForm/AddStudentForm";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -75,8 +76,14 @@ const App = () => {
 
         <div className="main-content">
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/group/:id" element={<GroupPage />} />
+            <Route path="/" element={<Home groups={groups} />} />
+
+            <Route
+              path="/add"
+              element={<Add groups={groups} setGroups={setGroups} />}
+            />
+
+            <Route path="/group/:id" element={<GroupPage setGroups={setGroups} />} />
             <Route path="/student/:id" element={<StudentPage />} />
           </Routes>
         </div>

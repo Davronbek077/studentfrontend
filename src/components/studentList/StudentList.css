@@ -1,92 +1,134 @@
 .students-list {
   max-width: 600px;
   margin: 40px auto;
-  background: #ffffff;
-
-  padding: 0 22px 15px; /* Yuqoridan 0! — shunda h2 tepaga yopishadi */
-
+  background: #fff;
+  padding: 15px;
   border-radius: 12px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
 
   max-height: 555px;
-  overflow-y: scroll;
+  overflow-y: auto;
+
   scrollbar-width: none;
-  -ms-overflow-style: none;
 }
-
 .students-list::-webkit-scrollbar {
-  width: 0px;
-  background: transparent;
+  display: none;
 }
 
-.students-list h2 {
-  text-align: center;
-  color: #1b3764;
-  font-size: 26px;
-  font-weight: bold;
-
-  position: sticky;
-  top: 0; /* to‘liq tepaga yopishadi */
-  background: #ffffff;
-  z-index: 10;
-
-  margin: 0;
-  padding: 20px 0; /* h2 o‘zining ichki balandligi */
-}
-
-
-/* --- Student Card --- */
-.student-item {
+.list-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  background: #f7f9fc;
-  padding: 14px 18px;
-  border-radius: 10px;
-  margin-bottom: 12px;
-  border: 1px solid #e0e6ef;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.list-header h2 {
+  flex: 1;              /* H2 markazda bo‘lishi uchun */
+  text-align: center;
+}
+
+.dots-menu {
+  flex: 0;              /* faqat o‘lchami kerakli */
+  margin-left: auto;    /* o‘ngga surish */
+}
+
+
+.dots {
+  font-size: 24px;
+  cursor: pointer;
+}
+
+
+/* Dropdown menu */
+.menu-box {
+  position: absolute;
+  right: 0;
+  top: 28px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 8px 12px;
+  white-space: nowrap;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  z-index: 99;
+}
+
+.menu-box button {
+  border: none;
+  background: none;
+  padding: 5px 0;
+  cursor: pointer;
+  font-size: 15px;
+}
+.menu-box button:hover {
+  color: red;
+}
+
+/* Student items */
+.student-item {
+  display: flex; 
+  justify-content: 
+  space-between; 
+  align-items: center; 
+  background: #f7f9fc; 
+  padding: 14px 18px; 
+  border-radius: 10px; 
+  margin-bottom: 12px; 
+  border: 1px solid #e0e6ef; 
   transition: 0.2s ease;
 }
 
-/* --- Student Name Link --- */
 .student-item a {
-  text-decoration: none;
-  font-size: 18px;
-  font-weight: 500;
   color: #1b3764;
+  font-size: 18px;
+  text-decoration: none;
 }
 
-.student-item a:hover {
-  color: #4065a1;
+/* MODAL */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 200;
 }
 
-/* --- Delete Button --- */
-.delete-btn {
-  background-color: #ff4d4d;
+.modal {
+  background: #fff;
+  padding: 22px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 350px;
+  text-align: center;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.modal-buttons .yes,
+.modal-buttons .no {
+  padding: 8px 20px;
+  border-radius: 6px;
   border: none;
-  padding: 8px 14px;
-  color: white;
-  font-size: 14px;
-  border-radius: 8px;
   cursor: pointer;
-  transition: 0.25s ease;
+  font-size: 16px;
 }
 
-
-/* --- Mobile --- */
-@media (max-width: 450px) {
-  .students-list {
-    padding: 18px;
-  }
-
-  .student-item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-
-  .delete-btn {
-    width: 100%;
-    text-align: center;
-  }
+.modal-buttons .yes {
+  background: #e63946;
+  color: #fff;
 }
+
+.modal-buttons .no {
+  background: #ddd;
+}
+

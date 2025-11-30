@@ -1,10 +1,11 @@
 import React from "react";
 import AddStudentForm from "../components/addStudentForm/AddStudentForm";
 
-const Home = () => {
+const Home = ({ groups }) => {
+  console.log("Homega kelgan groups:", groups); // <-- diagnostika
   return (
     <div>
-      <AddStudentForm />
+      <AddStudentForm groups={groups} />
     </div>
   );
 };

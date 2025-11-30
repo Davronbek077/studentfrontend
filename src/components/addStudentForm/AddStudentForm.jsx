@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { api } from "../../api/api";
+import React, { useState } from "react";
 import "./AddStudentForm.css";
+import { api } from "../../api/api";
 import { toast } from "react-toastify";
 
-const Add = () => {
-  const [groups, setGroups] = useState([]);
+const Add = ({ groups = [] }) => {
   const [groupId, setGroupId] = useState("");
 
   const [name, setName] = useState("");
@@ -19,20 +18,36 @@ const Add = () => {
   const [paymentStatus, setPaymentStatus] = useState("Qilinmagan");
   const [notes, setNotes] = useState("");
 
-  // 🔥 Guruhlarni backenddan olish
-  useEffect(() => {
-    api.get("/groups").then((res) => {
-      setGroups(res.data);
-    });
-  }, []);
+  const formatPhone = (value, prev) => {
+    // Agar o'chirish bo'layotgan bo'lsa (backspace)
+    if (value.length < prev.length) {
+      return value; // formatlamay qaytaramiz
+    }
+  
+    // Faqat raqamlarni qoldiramiz
+    value = value.replace(/[^\d]/g, "");
+  
+    // 998 bilan boshlansa olib tashlaymiz
+    if (value.startsWith("998")) value = value.slice(3);
+  
+    // Maksimum 9 ta raqam
+    value = value.slice(0, 9);
+  
+    let res = "+998";
+  
+    if (value.length >= 1) res += " (" + value.slice(0, 2);
+    if (value.length >= 2) res += ")";
+    if (value.length >= 3) res += " " + value.slice(2, 5);
+    if (value.length >= 5) res += "-" + value.slice(5, 7);
+    if (value.length >= 7) res += "-" + value.slice(7, 9);
+  
+    return res;
+  };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!groupId) {
-      toast.error("Iltimos, guruh tanlang!");
-      return;
-    }
+    if (!groupId) return toast.error("Guruh tanlang!");
 
     try {
       await api.post("/students", {
@@ -47,7 +62,7 @@ const Add = () => {
         notes,
       });
 
-      toast.success("O‘quvchi muvaffaqiyatli qo‘shildi!");
+      toast.success("O‘quvchi qo‘shildi!");
 
       // Formani tozalash
       setName("");
@@ -59,9 +74,8 @@ const Add = () => {
       setNotes("");
       setGroupId("");
       setPaymentStatus("Qilinmagan");
-
     } catch (err) {
-      toast.error("Xatolik! O‘quvchi qo‘shilmadi.");
+      toast.error("Xatolik!");
     }
   };
 
@@ -71,33 +85,70 @@ const Add = () => {
 
       <form onSubmit={handleSubmit} className="add-form">
 
+        {/* Guruh tanlash */}
         <select value={groupId} onChange={(e) => setGroupId(e.target.value)}>
           <option value="">Guruh tanlang</option>
-          {groups.map((group) => (
-            <option key={group._id} value={group._id}>
-              {group.name}
+          {groups.map((g) => (
+            <option key={g._id} value={g._id}>
+              {g.name}
             </option>
           ))}
         </select>
 
-        <input value={name} placeholder="O'quvchi ismi" onChange={(e) => setName(e.target.value)} />
-        <input value={phone} placeholder="O'quvchi telefoni" onChange={(e) => setPhone(e.target.value)} />
+        {/* O‘quvchi ismi */}
+        <div className={`input-wrapper ${name ? "filled" : ""}`}>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <label>O‘quvchi ismi</label>
+        </div>
 
-        <input value={fatherName} placeholder="Otasining ismi" onChange={(e) => setFatherName(e.target.value)} />
-        <input value={fatherPhone} placeholder="Otasining telefoni" onChange={(e) => setFatherPhone(e.target.value)} />
+        {/* O‘quvchi telefoni */}
+        <div className={`input-wrapper ${phone ? "filled" : ""}`}>
+        <input type="text" value={phone} onChange={(e) => setPhone(formatPhone(e.target.value, phone))}
+         onFocus={() => !phone && setPhone("+998 ")}/>
+          <label>O‘quvchi telefoni</label>
+        </div>
 
-        <input value={motherName} placeholder="Onasining ismi" onChange={(e) => setMotherName(e.target.value)} />
-        <input value={motherPhone} placeholder="Onasining telefoni" onChange={(e) => setMotherPhone(e.target.value)} />
+        {/* Otasining ismi */}
+        <div className={`input-wrapper ${fatherName ? "filled" : ""}`}>
+          <input
+            value={fatherName}
+            onChange={(e) => setFatherName(e.target.value)}
+          />
+          <label>Otasining ismi</label>
+        </div>
 
-        <label>To‘lov holati:</label>
-        <select value={paymentStatus} onChange={(e) => setPaymentStatus(e.target.value)}>
-          <option value="Qilinmagan">Qilinmagan</option>
-          <option value="Qilingan">Qilingan</option>
-        </select>
+        {/* Otasining telefoni */}
+        <div className={`input-wrapper ${fatherPhone ? "filled" : ""}`}>
+        <input type="text" value={fatherPhone} onChange={(e) => setFatherPhone(formatPhone(e.target.value, fatherPhone))}
+          onFocus={() => !fatherPhone && setFatherPhone("+998 ")}/>
+          <label>Otasining telefoni</label>
+        </div>
 
-        <textarea value={notes} placeholder="Izoh" onChange={(e) => setNotes(e.target.value)} />
+        <div className={`input-wrapper ${motherName ? "filled" : ""}`}>
+        <input
+            value={motherName}
+            onChange={(e) => setMotherName(e.target.value)}
+          />
+          <label>Onasining ismi</label>
+        </div>
 
-        <button type="submit">Qo‘shish</button>
+        <div className={`input-wrapper ${motherPhone ? "filled" : ""}`}>
+        <input type="text" value={motherPhone} onChange={(e) => setMotherPhone(formatPhone(e.target.value, motherPhone))}
+          onFocus={() => !motherPhone && setMotherPhone("+998 ")}/>
+          <label>Onasining telefoni</label>
+        </div>
+
+        <textarea
+          value={notes}
+          onChange={(e) => setNotes(e.target.value)}
+          placeholder="O‘quvchi haqida izoh (ixtiyoriy)"
+        />
+
+        <button>Qo‘shish</button>
       </form>
     </div>
   );

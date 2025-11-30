@@ -4,15 +4,16 @@ import { api } from "../../api/api";
 import { useParams } from "react-router-dom";
 import "./GroupPage.css";
 
-const GroupPage = () => {
+const GroupPage = ({setGroups }) => {
   const { id } = useParams();
   const [students, setStudents] = useState([]);
 
   useEffect(() => {
     if (id) {
-      api.get(`/students/group/${id}`)
-        .then(res => setStudents(res.data))
-        .catch(err => console.log(err));
+      api
+        .get(`/students/group/${id}`)
+        .then((res) => setStudents(res.data))
+        .catch((err) => console.log(err));
     }
   }, [id]);
 
@@ -22,7 +23,10 @@ const GroupPage = () => {
         <p className="no-students">Hozircha o‘quvchilar yo‘q</p>
       ) : (
         <div className="student-list-container">
-          <StudentList students={students} />
+          <StudentList
+            students={students}
+            setGroups={setGroups}
+          />
         </div>
       )}
     </div>

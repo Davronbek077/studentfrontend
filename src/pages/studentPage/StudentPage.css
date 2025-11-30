@@ -95,7 +95,10 @@ select {
   color: #333;
 }
 
-/* --- RESPONSIVE --- */
+.edit-mode input{
+  outline: none;
+}
+
 @media (max-width: 480px) {
   .student-container {
     margin: 20px;
@@ -114,3 +117,219 @@ select {
     padding: 10px;
   }
 }
+
+.header-line {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.header-line h1 {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.dots-menu {
+  position: relative;
+}
+
+.dots {
+  font-size: 26px;
+  cursor: pointer;
+  padding: 6px;
+}
+
+.menu-box {
+  position: absolute;
+  top: 30px;
+  right: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  padding: 8px 0;
+  z-index: 10;
+
+  display: flex;
+  flex-direction: column;
+  min-width: 140px;
+  gap: 4px;
+}
+
+
+
+.menu-box button {
+  background: none;
+  border: none;
+  width: 100%;
+  padding: 10px 20px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.menu-box .delete-btn{
+  color: black;
+}
+
+.comment-edit {
+  width: 100%;
+  min-height: 120px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #bbb;
+  resize: none;
+  outline: none;
+}
+
+.save-btn {
+  margin-top: 20px;
+  background: #1B76E8;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.info-box.edit-mode {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px;
+}
+
+.info-box.edit-mode label {
+  font-weight: 600;
+}
+
+.info-box.edit-mode input,
+.info-box.edit-mode select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 200;
+  animation: fadeIn 0.25s ease;
+}
+
+.modal-box {
+  background: #fff;
+  padding: 22px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 350px;
+  text-align: center;
+  animation: scaleIn 0.25s ease;
+}
+
+.modal-box h3 {
+  font-size: 18px;
+  color: #1B3764;
+  margin-bottom: 15px;
+  line-height: 1.4;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.modal-buttons .yes,
+.modal-buttons .no {
+  padding: 8px 20px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.2s ease;
+}
+
+/* --- YES (delete) --- */
+.modal-buttons .yes {
+  background: #e63946;
+  color: #fff;
+}
+
+.modal-buttons .yes:hover {
+  background: #c92a38;
+}
+
+/* --- NO (cancel) --- */
+.modal-buttons .no {
+  background: #ddd;
+  color: #000;
+}
+
+.modal-buttons .no:hover {
+  background: #ccc;
+}
+
+/* --- ANIMATIONS --- */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.back-btn {
+  border: none;
+  background: #e6e6e6;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 15px;
+  margin-right: 10px;
+  transition: 0.2s;
+}
+
+.back-btn:hover {
+  background: #d4d4d4;
+}
+
+.student-container {
+  position: relative;
+  padding-bottom: 60px; /* pastdagi tugma uchun bo'sh joy */
+}
+
+.back-btn {
+  position: absolute;
+  bottom: -60px;  /* konteynerdan pastga chiqarish */
+  left: 0;
+  background: #e6e6e6;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.back-btn:hover {
+  background: #d4d4d4;
+}
+
