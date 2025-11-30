@@ -129,6 +129,7 @@ select {
 .header-line h1 {
   margin: 0 auto;
   text-align: center;
+  flex-grow: 1;
 }
 
 .dots-menu {
