@@ -2,11 +2,11 @@
 .sidebar {
   position: fixed;
   top: 0;
-  left: -300px; /* default yopiq */
+  left: -300px;
   width: 280px;
   height: 100%;
   background: #ffffff;
-  box-shadow: 2px 0 12px rgba(0,0,0,0.1);
+  box-shadow: 2px 0px 12px rgba(0,0,0,0.1);
   padding: 20px;
   transition: left 0.3s ease;
   z-index: 100;
@@ -28,25 +28,53 @@
   margin-bottom: 10px;
 }
 
-/* --- Sarlavha --- */
-.sidebar h2 {
-  margin-bottom: 15px;
+/* --- SECTION Style --- */
+.section {
+  margin-bottom: 20px;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 600;
   color: #1b3764;
-  font-size: 22px;
-  font-weight: bold;
-}
-
-/* --- Guruh ro‘yxati --- */
-.group-list {
-  flex: 1;
-  overflow-y: auto; /* scroll bo‘lsin */
-}
-
-.group-item {
+  background: #f0f4fa;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #dce3ee;
+  cursor: pointer;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 10px;
+}
+
+.section-title:hover {
+  background: #e6edf7;
+}
+
+.section-title a {
+  color: #1b3764;
+  text-decoration: none;
+  width: 100%;
+}
+
+/* --- Dropdown ichki animatsiya --- */
+.group-list {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease, padding 0.3s ease;
+  padding-left: 0;
+  margin-top: 5px;
+}
+
+/* React-da {openGroups && ...} bo‘lgani uchun max-height bo‘sh emas holatda */
+.section.open .group-list {
+  max-height: 500px;
+  padding-left: 5px;
+}
+
+/* --- Guruh elementlari --- */
+.group-item {
+  padding: 7px 10px;
   margin-bottom: 8px;
   background: #f7f9fc;
   border-radius: 8px;
@@ -57,25 +85,16 @@
   text-decoration: none;
   color: #1b3764;
   font-weight: 500;
+  display: block;
 }
 
 .group-item a:hover {
   color: #4065a1;
 }
 
-.delete-btn {
-  background-color: #ff4d4d;
-  border: none;
-  padding: 4px 8px;
-  color: white;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 12px;
-}
-
 /* --- Yangi guruh qo‘shish --- */
 .add-group {
-  margin-top: 15px;
+  margin-top: 12px;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -108,7 +127,14 @@
   background-color: #4065a1;
 }
 
-/* --- Scrollbar styling (optional) --- */
+/* --- Bo'sh text --- */
+.empty-text {
+  color: #888;
+  padding: 10px 0;
+  text-align: left;
+}
+
+/* --- Scrollbar (optional) --- */
 .group-list::-webkit-scrollbar {
   width: 6px;
 }

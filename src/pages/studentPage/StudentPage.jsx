@@ -8,6 +8,7 @@ import "./StudentPage.css";
 const StudentPage = () => {
   const { id } = useParams();
   const [student, setStudent] = useState(null);
+  const [payments, setPayments] = useState([]);
   const [editMode, setEditMode] = useState(false);
   const [form, setForm] = useState({});
   const [menuOpen, setMenuOpen] = useState(false);
@@ -15,79 +16,96 @@ const StudentPage = () => {
   const menuRef = useRef(null);
   const navigate = useNavigate();
 
-  // 1️⃣ Student ma’lumotini yuklash
+  // Date formatlash
+  const formatDate = (d) => {
+    if (!d) return "";
+    return d.toString().split("T")[0];
+  };
+
+  // 1) Studentni olish
   useEffect(() => {
     const fetchStudent = async () => {
       try {
-        const res = await api.get(`/students/${id}`); // backend /students/:id
+        const res = await api.get(`/students/${id}`);
         setStudent(res.data);
         setForm(res.data);
       } catch (err) {
         toast.error("O‘quvchi ma’lumotlarini yuklashda xatolik!");
-        console.error(err);
       }
     };
     fetchStudent();
   }, [id]);
 
-  // 2️⃣ Tashqariga bosilganda menyuni yopish
+  // 2) To'lovlarni olish
   useEffect(() => {
-    const handleClick = (e) => {
-      if (menuRef.current && !menuRef.current.contains(e.target)) {
-        setMenuOpen(false);
+    const fetchPayments = async () => {
+      try {
+        const res = await api.get(`/payments/student/${id}`);
+        setPayments(res.data);
+      } catch (err) {
+        console.error(err);
       }
     };
-    document.addEventListener("click", handleClick);
-    return () => document.removeEventListener("click", handleClick);
-  }, []);
+    fetchPayments();
+  }, [id]);
 
-  // 3️⃣ Student ma’lumotini yangilash
+  // Tahrirlash
   const updateStudent = async () => {
     try {
-      console.log("PATCH URL:", `/students/${id}`);
-      console.log("PATCH DATA:", form);
-  
+      // student update
       const res = await api.patch(`/students/${id}`, form);
-  
-      console.log("PATCH RESPONSE:", res.data);
-  
       setStudent(res.data);
+  
+      // payment update
+      if (payments.length > 0) {
+        const p = payments[0];
+  
+        await api.patch(`/payments/${p._id}`, {
+          month: p.month,
+          amount: p.amount,
+          date: p.date,      // <-- formatDate yo‘q
+          duration: p.duration,
+        });
+      }
+  
+      toast.success("Yangilandi!");
       setEditMode(false);
-      toast.success("Maʼlumotlar yangilandi!");
+  
     } catch (err) {
-      console.error("PATCH ERROR:", err);
-      toast.error("Xatolik yuz berdi!");
+      toast.error("Yangilashda xatolik!");
     }
   };
-
+  
+  // O‘quvchi o‘chirish
   const deleteStudent = async () => {
-    try{
+    try {
       await api.delete(`/students/${id}`);
       toast.success("O'quvchi o'chirildi");
-      setDeleteModal(false);
-
       window.location.href = "/";
     } catch (err) {
       toast.error("O'chirishda xatolik!");
-      console.error(err);
     }
   };
 
-
-  // 4️⃣ Telefon formatlash funksiyasi
+  // Telefon format
   const formatPhone = (value) => {
     if (!value) return "";
     value = value.replace(/\D/g, "");
     if (value.startsWith("998")) value = value.slice(3);
     value = value.slice(0, 9);
+
     let f = "+998 ";
     if (value.length >= 2) f += `(${value.slice(0, 2)})`;
     else if (value.length > 0) f += `(${value}`;
+
     if (value.length >= 5) f += ` ${value.slice(2, 5)}`;
     else if (value.length > 2) f += ` ${value.slice(2)}`;
+
     if (value.length >= 7) f += `-${value.slice(5, 7)}`;
     else if (value.length > 5) f += `-${value.slice(5)}`;
+
     if (value.length === 9) f += `-${value.slice(7, 9)}`;
+
     return f;
   };
 
@@ -95,11 +113,11 @@ const StudentPage = () => {
 
   return (
     <div className="student-container">
+
       {/* HEADER */}
       <div className="header-line">
         <h1>{student.name}</h1>
 
-        {/* MENU */}
         <div className="dots-menu" ref={menuRef}>
           <span
             className="dots"
@@ -110,6 +128,7 @@ const StudentPage = () => {
           >
             ⋮
           </span>
+
           {menuOpen && (
             <div className="menu-box">
               <button
@@ -121,11 +140,13 @@ const StudentPage = () => {
                 Tahrirlash
               </button>
 
-              <button onClick={() => {
-                setDeleteModal(true);
-                setMenuOpen(false);
-              }}
-              className="delete-btn">
+              <button
+                className="delete-btn"
+                onClick={() => {
+                  setDeleteModal(true);
+                  setMenuOpen(false);
+                }}
+              >
                 O'chirish
               </button>
             </div>
@@ -189,24 +210,94 @@ const StudentPage = () => {
           </>
         ) : (
           <>
-            <p>
-              <b>O‘quvchi telefoni:</b> {formatPhone(student.phone) || "-"}
-            </p>
-            <p>
-              <b>Otasi:</b> {student.fatherName || "-"}
-            </p>
-            <p>
-              <b>Otasining telefoni:</b> {formatPhone(student.fatherPhone) || "-"}
-            </p>
-            <p>
-              <b>Onasi:</b> {student.motherName || "-"}
-            </p>
-            <p>
-              <b>Onasining telefoni:</b> {formatPhone(student.motherPhone) || "-"}
-            </p>
+            <p><b>O‘quvchi telefoni:</b> {formatPhone(student.phone)}</p>
+            <p><b>Otasi:</b> {student.fatherName || "-"}</p>
+            <p><b>Otasining telefoni:</b> {formatPhone(student.fatherPhone)}</p>
+            <p><b>Onasi:</b> {student.motherName || "-"}</p>
+            <p><b>Onasining telefoni:</b> {formatPhone(student.motherPhone)}</p>
           </>
         )}
       </div>
+
+      {/* PAYMENT EDIT */}
+      {editMode && payments.length > 0 && (
+        <div className="edit-payment-box">
+          <h3>Oxirgi to‘lovni tahrirlash:</h3>
+
+          <label>Oy:</label>
+          <select
+            value={payments[0].month}
+            onChange={(e) =>
+              setPayments([{ ...payments[0], month: e.target.value }])
+            }
+          >
+            <option value="Yanvar">Yanvar</option>
+            <option value="Fevral">Fevral</option>
+            <option value="Mart">Mart</option>
+            <option value="Aprel">Aprel</option>
+            <option value="May">May</option>
+            <option value="Iyun">Iyun</option>
+            <option value="Iyul">Iyul</option>
+            <option value="Avgust">Avgust</option>
+            <option value="Sentabr">Sentabr</option>
+            <option value="Oktabr">Oktabr</option>
+            <option value="Noyabr">Noyabr</option>
+            <option value="Dekabr">Dekabr</option>
+          </select>
+
+          <label>Summa:</label>
+          <input
+            type="number"
+            value={payments[0].amount}
+            onChange={(e) =>
+              setPayments([
+                { ...payments[0], amount: Number(e.target.value) },
+              ])
+            }
+          />
+
+          <label>Sana:</label>
+          <input
+            type="date"
+            value={formatDate(payments[0].date)}
+            onChange={(e) =>
+              setPayments([{ ...payments[0], date: e.target.value }])
+            }
+          />
+
+          <label>Muddat (oy):</label>
+          <input
+            type="number"
+            value={payments[0].duration}
+            onChange={(e) =>
+              setPayments([
+                { ...payments[0], duration: Number(e.target.value) },
+              ])
+            }
+          />
+        </div>
+      )}
+
+      {/* PAYMENT LIST */}
+      {!editMode && (
+        <>
+          <h3 className="payment-title">To‘lovlar tarixi:</h3>
+          <div className="payments-list">
+            {payments.length === 0 ? (
+              <p className="no-payments">To‘lovlar mavjud emas</p>
+            ) : (
+              payments.map((p, i) => (
+                <div className="payment-item" key={i}>
+                  <p><b>Oy:</b> {p.month}</p>
+                  <p><b>Summa:</b> {p.amount}</p>
+                  <p><b>Sana:</b> {formatDate(p.date)}</p>
+                  <p><b>Muddat:</b> {p.duration} oy</p>
+                </div>
+              ))
+            )}
+          </div>
+        </>
+      )}
 
       {/* NOTES */}
       <h3 className="comment-title">O‘quvchi haqida izoh:</h3>
@@ -217,7 +308,9 @@ const StudentPage = () => {
           onChange={(e) => setForm({ ...form, notes: e.target.value })}
         />
       ) : (
-        <div className="comment-box">{student.notes || "Izoh mavjud emas"}</div>
+        <div className="comment-box">
+          {student.notes || "Izoh mavjud emas"}
+        </div>
       )}
 
       {/* SAVE BUTTON */}
@@ -227,25 +320,32 @@ const StudentPage = () => {
         </button>
       )}
 
+      {/* DELETE MODAL */}
       {deleteModal && (
         <div className="modal-overlay">
           <div className="modal-box">
             <h3>Rostdan ham o'quvchini o'chirmoqchimisiz?</h3>
 
             <div className="modal-buttons">
-              <button className="yes" onClick={deleteStudent}> Ha</button>
-              <button className="no" onClick={() => setDeleteModal(false)}>Yo'q</button>
+              <button className="yes" onClick={deleteStudent}>Ha</button>
+              <button className="no" onClick={() => setDeleteModal(false)}>
+                Yo‘q
+              </button>
             </div>
           </div>
         </div>
       )}
 
-        <button className="back-btn" onClick={() => {
+      {/* BACK */}
+      <button
+        className="back-btn"
+        onClick={() => {
           if (window.history.length > 2) navigate(-1);
           else navigate("/");
-        }}>
-          Orqaga qaytish  ←
-        </button>
+        }}
+      >
+        Orqaga qaytish ←
+      </button>
     </div>
   );
 };

@@ -10,6 +10,7 @@ import Home from "./pages/Home";
 import GroupPage from "./pages/groupPage/GroupPage";
 import StudentPage from "./pages/studentPage/StudentPage";
 import Add from "./components/addStudentForm/AddStudentForm";
+import Payments from "./pages/payments/Payments";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -85,6 +86,7 @@ const App = () => {
 
             <Route path="/group/:id" element={<GroupPage setGroups={setGroups} />} />
             <Route path="/student/:id" element={<StudentPage />} />
+            <Route path="/payments" element={<Payments />} />
           </Routes>
         </div>
       </div>

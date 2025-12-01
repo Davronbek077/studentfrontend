@@ -9,6 +9,7 @@
     position: fixed;
     top: 0;
     left: 0;
+    z-index: 1;
   }
   
   .menu-icon {
@@ -26,5 +27,18 @@
     cursor: pointer;
     text-decoration: none;
   }
-  
-  
+
+  .navbar nav ul{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .navbar nav ul li{
+    list-style: none;
+  }
+
+  .navbar ul li a{
+    text-decoration: none;
+    color: black;
+  }

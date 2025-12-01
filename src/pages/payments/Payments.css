@@ -1,0 +1,97 @@
+/* === Payments sahifasi umumiy === */
+.payments {
+  max-width: 450px;
+  margin: 40px auto;
+  padding: 25px;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+}
+
+.payments h2 {
+  text-align: center;
+  color: #1b3764;
+  font-size: 24px;
+  margin-bottom: 25px;
+  font-weight: 700;
+}
+
+/* === Form === */
+.payment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.payment-form label {
+  font-size: 15px;
+  color: #1b3764;
+  font-weight: 500;
+  margin-bottom: -5px;
+}
+
+/* === Inputlar === */
+.payment-form input,
+.payment-form select {
+  padding: 10px 12px;
+  font-size: 15px;
+  border: 1px solid #cdd6e6;
+  border-radius: 8px;
+  outline: none;
+  transition: 0.2s ease;
+  background: #f7f9fc;
+}
+
+.payment-form input:focus,
+.payment-form select:focus {
+  border-color: #1b3764;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(27, 55, 100, 0.15);
+}
+
+/* === Tasdiqlash tugmasi === */
+.confirm-btn {
+  margin-top: 10px;
+  padding: 12px;
+  background: #1b3764;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.25s ease;
+  font-weight: 600;
+}
+
+.confirm-btn:hover {
+  background: #2e4f8a;
+  transform: translateY(-2px);
+}
+
+.confirm-btn:active {
+  transform: scale(0.97);
+}
+
+/* === Responsive === */
+@media (max-width: 420px) {
+  .payments {
+    margin: 20px;
+    padding: 18px;
+  }
+
+  .payments h2 {
+    font-size: 20px;
+  }
+
+  .payment-form input,
+  .payment-form select {
+    font-size: 14px;
+    padding: 9px;
+  }
+
+  .confirm-btn {
+    font-size: 14px;
+    padding: 10px;
+  }
+}
+
